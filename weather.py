@@ -55,8 +55,13 @@ def get_data(url):
 
 #ARGUMENTS
 @click.command()
+#takes argument for the city
 @click.argument('city')
+
+#takes an optional argument to give pressure data
 @click.option('-p','--pressure', default=None,is_flag=True, help='gets the pressure data for the entered city.')
+
+#takes an optional argument to give humidity data
 @click.option('-h', '--humidity', default=None,is_flag=True, help='gets the humidity data for the entered city.')
 
 def main(city, pressure=False, humidity=False):
