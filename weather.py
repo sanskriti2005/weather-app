@@ -20,7 +20,7 @@ def get_url(city):
     city_name = parse.quote_plus(city)
 
     #the url 
-    url = (f"{base_url}?q={city_name}&appid={api_key}")
+    url = (f"{base_url}?q={city_name}&units=metric&appid={api_key}")
     return url
 
 #GET DATA FROM THE URL
@@ -52,6 +52,8 @@ def get_data(url):
     except:
          sys.exit("Couldn't read the server response")
 
+REVERSE = "\033[;7m"
+RESET = "\033[0m"
 
 #ARGUMENTS
 @click.command()
@@ -78,9 +80,8 @@ def main(city, pressure=False, humidity=False):
     description = data.get('weather', [{}])[0].get('description')
 
     # Print the required information
-    print(f"City: {city_name}")
-    print(f"Country: {country_name}")
-    print(f"Temperature: {temperature}")
+    print(f"{REVERSE}Location: {city_name}, {country_name}{RESET}")
+    print(f"Temperature: {temperature}°C")
     print(f"Weather Description: {description}")
 
     # If pressure option is set, print the pressure
