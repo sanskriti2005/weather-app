@@ -8,17 +8,8 @@ import sys
 def get_api_key():
     return os.getenv("OpenWeatherAPI")
 
-
 #BASE URL TO CREATE THE URL
 base_url = "https://api.openweathermap.org/data/2.5/weather"
-
-
-#ARGUMENTS
-@click.command()
-@click.argument('city')
-@click.option('-p','--pressure', help='gets the pressure data for the entered city.')
-@click.option('-h', '--humidity', help='gets the humidity data for the entered city.')
-
 
 #BUILD THE URL
 def get_url(city):
@@ -61,8 +52,39 @@ def get_data(url):
     except:
          sys.exit("Couldn't read the server response")
 
+#DISPLAY INFORMATION
+def display_information(data, pressure=False, humidity=False):
+    # Extract the required information from the data
+    city_name = data.get('name')
+    country_name = data.get('sys', {}).get('country')
+    temperature = data.get('main', {}).get('temp')
+    description = data.get('weather', [{}])[0].get('description')
+
+    # Print the required information
+    print(f"City: {city_name}")
+    print(f"Country: {country_name}")
+    print(f"Temperature: {temperature}")
+    print(f"Weather Description: {description}")
+
+    # If pressure option is set, print the pressure
+    if pressure:
+        pressure_value = data.get('main', {}).get('pressure')
+        print(f"Pressure: {pressure_value}")
+
+    # If humidity option is set, print the humidity
+    if humidity:
+        humidity_value = data.get('main', {}).get('humidity')
+        print(f"Humidity: {humidity_value}")
+
+#ARGUMENTS
+@click.command()
+@click.argument('city')
+@click.option('-p','--pressure', is_Flag = True, help='gets the pressure data for the entered city.')
+@click.option('-h', '--humidity', is_Flag = True, help='gets the humidity data for the entered city.')
     
 
-    
-    
+
+
+
+
 
